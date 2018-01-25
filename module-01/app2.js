@@ -34,12 +34,46 @@ var dataset  = [10,20,30,40,50]
 // console.log(el);
 
 // binding data to elements
+// var el = d3.select( 'body' )
+//   .selectAll( 'p' )
+//   .data( dataset )
+//   .enter()
+//   .append( 'p' )
+//   .text( 'Om Namah Shivaya!!!' )
+//   .style( 'color', 'orange' );
+//
+// console.log(el);
+
+// ********************************Displaying Data****************************
+//
+// Each element has access to the data it's binded to. You can use this as an opportunity to change the outcome of the element.
+//
+// Each transformation function(attr,classed,style,text..etc.,) can accept an anonymous function which will be passed the current data in the loop.
+
 var el = d3.select( 'body' )
   .selectAll( 'p' )
   .data( dataset )
   .enter()
   .append( 'p' )
-  .text( 'Om Namah Shivaya!!!' )
-  .style( 'color', 'orange' );
+  .text(function( d ){
+    return 'Om Namah Shivaya ' + d;
+  })
+  .attr( 'class', function(d){
+    if( d > 25 ){
+      return 'rudra';
+    }else{
+      return null;
+    }
+  })
+  .classed( 'hara' , function(d){
+    return d < 25; // 10 < 25 true, 40 < 25 false
+  })
+  .style( 'color', function( d ){
+    if( d > 25 ){
+      return 'orange';
+    }else{
+      return 'skyblue';
+    }
+  });
 
 console.log(el);
