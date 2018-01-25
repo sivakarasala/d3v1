@@ -8,7 +8,7 @@
 //
 // It's always good practice to put the data into the waiting room rather than having elements prepared already.
 
-var dataset  = [10,20,30,40,50]
+// var dataset  = [10,20,30,40,50]
 
 // dynamically binding data to the elements
 // var el = d3.select('body')
@@ -50,30 +50,30 @@ var dataset  = [10,20,30,40,50]
 //
 // Each transformation function(attr,classed,style,text..etc.,) can accept an anonymous function which will be passed the current data in the loop.
 
-var el = d3.select( 'body' )
-  .selectAll( 'p' )
-  .data( dataset )
-  .enter()
-  .append( 'p' )
-  .text(function( d ){
-    return 'Om Namah Shivaya ' + d;
-  })
-  .attr( 'class', function(d){
-    if( d > 25 ){
-      return 'rudra';
-    }else{
-      return null;
-    }
-  })
-  .classed( 'hara' , function(d){
-    return d < 25; // 10 < 25 true, 40 < 25 false
-  })
-  .style( 'color', function( d ){
-    if( d > 25 ){
-      return 'orange';
-    }else{
-      return 'skyblue';
-    }
-  });
-
-console.log(el);
+// var el = d3.select( 'body' )
+//   .selectAll( 'p' )
+//   .data( dataset )
+//   .enter()
+//   .append( 'p' )
+//   .text(function( d ){
+//     return 'Om Namah Shivaya ' + d;
+//   })
+//   .attr( 'class', function(d){
+//     if( d > 25 ){
+//       return 'rudra';
+//     }else{
+//       return null;
+//     }
+//   })
+//   .classed( 'hara' , function(d){
+//     return d < 25; // 10 < 25 true, 40 < 25 false
+//   })
+//   .style( 'color', function( d ){
+//     if( d > 25 ){
+//       return 'orange';
+//     }else{
+//       return 'skyblue';
+//     }
+//   });
+//
+// console.log(el);
