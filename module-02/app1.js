@@ -21,13 +21,68 @@ for (i = 0; i < 20; i++) {
   data.push(num);
 }
 
-var el = d3.select("#chart")
-  .selectAll('div')
+// d3.select("#chart")
+//   .selectAll('div')
+//   .data(data)
+//   .enter()
+//   .append('div')
+//   .attr("class", "bar") //classed('bar', true)
+//   .style("height", function(d) {
+//     var height = d * 3;
+//     return height + "px";
+//   });
+
+// Generate bar using SVG elements
+
+// Moving SVG elements requires that you change their x and y coordinates. The X coordinate goes from left to right and the Y coordinate goes from top to bottom.
+//
+// If you're reusing the values, then you should store it in a variable. This makes it easy to change later on if you ever need to.
+//
+// Labels are a way to identify a shape. Users will be able to better understand compare your visualization if you provide labels.
+//
+// Text anchoring is special to SVG. You can determine whether text gets pushed from its side or center point.
+
+// Create SVG element
+var chart_width = 800;
+var chart_height = 400;
+var bar_padding = 5;
+
+var svg = d3.select('#chart')
+  .append('svg')
+  .attr('width', chart_width )
+  .attr('height', chart_height);
+
+// Bind data and create bars
+svg.selectAll('rect')
   .data(data)
   .enter()
-  .append('div')
-  .attr("class", "bar") //classed('bar', true)
-  .style("height", function(d) {
-    var height = d * 3;
-    return height + "px";
-  });
+  .append('rect')
+  .attr("x", function(d,i){
+    return i*(chart_width/data.length); // 0 - 0, 1 - 30, 2 - 60
+  })
+  .attr("y", function(d){
+      return chart_height - d*5;
+  })
+  .attr("width", chart_width/data.length - bar_padding)
+  .attr("height", function(d){
+    return d*5;
+  })
+  .attr('fill', '#7ED26D');
+
+// create labels
+svg.selectAll('text')
+  .data(data)
+  .enter()
+  .append('text')
+  .text(function(d){
+    return d;
+  })
+  .attr("x", function(d,i){
+    return i*(chart_width/data.length) + (chart_width/data.length - bar_padding)/2;
+  })
+  .attr("y", function(d){
+      return chart_height - d*5 +15;
+  })
+  .attr('font-size', 15)
+  .attr('fill', '#fff')
+  .attr('text-anchor', 'middle');
