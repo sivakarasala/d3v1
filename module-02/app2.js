@@ -6,6 +6,16 @@
 //
 // Math is used to position and set the size of elements. D3 can take care of the more complex operations so you don't have to.
 
+//********************************Adding Scales*******************************
+
+// The d3.max() and d3.min() functions can be passed in accessor functions for complex array and object structures.
+//
+// An accessor function is a function that returns a value that's used for grabbing certain data from an object or array.
+//
+// Adding padding to your visualizations is common so that shapes and text don't get cut off from the viewing area.
+//
+// You can reverse the range and D3 will take care of scaling the values appropriately for you.
+
 var data = [
   [400, 200],
   [210, 140],
@@ -19,6 +29,7 @@ var data = [
 
 var chart_width = 800;
 var chart_height = 400;
+var padding = 50;
 
 // create SVG Element
 var svg = d3.select('#chart')
@@ -26,16 +37,35 @@ var svg = d3.select('#chart')
   .attr('width', chart_width)
   .attr('height', chart_height);
 
+// create Scales
+var x_scale = d3.scaleLinear()
+  .domain([0, d3.max(data, function(d) {
+    return d[0];
+  })])
+  .range([padding, chart_width - padding * 2]);
+
+var y_scale = d3.scaleLinear()
+  .domain([0, d3.max(data, function(d) {
+    return d[1];
+  })])
+  .range([chart_height - padding, padding]); // reversed range
+
+var r_scale = d3.scaleLinear()
+  .domain([0, d3.max(data, function(d) {
+    return d[1];
+  })])
+  .range([5, 30]);
+
 // create circles
 svg.selectAll('circle')
   .data(data)
   .enter()
   .append('circle')
   .attr('cx', function(d) {
-    return d[0];
+    return x_scale(d[0]);
   })
   .attr('cy', function(d) {
-    return d[1];
+    return y_scale(d[1]);
   })
   .attr('r', function(d) {
     return d[1] / 10;
@@ -51,8 +81,8 @@ svg.selectAll('text')
     return d.join(',');
   })
   .attr('x', function(d) {
-    return d[0];
+    return x_scale(d[0]);
   })
   .attr('y', function(d) {
-    return d[1];
+    return y_scale(d[1]);
   });
