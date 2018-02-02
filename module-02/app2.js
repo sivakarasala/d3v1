@@ -22,6 +22,24 @@
 //
 // Some scales are used for data that don't contain numeric values such as colors or categorical data.
 
+//**********************************Adding Axes********************************
+//
+// An axis is a line with ticks that provide a way to visually measure the distance between certain points in a graph. D3 provides a set of functions for creating an axis.
+//
+// The axisTop() and axisBottom() functions are used for creating a horizontal axis. The axisLeft() and axisRight() functions are used for creating a vertical axis.
+//
+// Unlike scales, these functions will draw the SVG elements for you. It's good practice to store these generated elements inside a group so they can be moved and managed easily.
+//
+// You can use CSS to refine the outcome of your SVG shapes. The more cleaner a shape looks, the more resources is required to render it.
+
+//***********************************Customizing Axes**************************
+//
+// The ticks() function allows you to set a number of ticks an axis should have. The number will only be taken as a suggestion.
+//
+// The tickValues() function will allow you to completely control how many ticks are outputted along with the actual values themselves. D3 will take the time to space them out.
+//
+// The tickFormat() function will allow you to format the text that gets outputted for each tick. You are provided the data for each tick so you can manipulate it appropriately.
+
 var data = [
   [400, 200],
   [210, 140],
@@ -68,6 +86,23 @@ var a_scale = d3.scaleSqrt()
   })])
   .range([0,25]);
 
+// create Axis
+var x_axis = d3.axisBottom(x_scale); //d3.axisBottom.scale(x_axis)
+svg.append('g')
+  .attr('class', 'x-axis')
+  .attr('transform', 'translate(0,' +(chart_height-padding)+')'
+  )
+  .call(x_axis);
+
+var y_axis = d3.axisLeft(y_scale)
+  .ticks(5); // d3.axisLeft.scale(y_scale) .tickValues([]) for setting exact val
+svg.append('g')
+  .attr('class', 'y-axis')
+  .attr('transform', 'translate('+(padding)+',0)'
+  )
+  .call(y_axis);
+
+
 // create circles
 svg.selectAll('circle')
   .data(data)
@@ -85,7 +120,8 @@ svg.selectAll('circle')
   .attr('fill', '#D1AB0E');
 
 // create labels
-svg.selectAll('text')
+svg.append('g')
+  .selectAll('text')
   .data(data)
   .enter()
   .append('text')
