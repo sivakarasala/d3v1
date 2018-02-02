@@ -16,6 +16,12 @@
 //
 // You can reverse the range and D3 will take care of scaling the values appropriately for you.
 
+// D3 provides various scales for various scenarios. An official list of scales can be found on the D3 Scales library.
+//
+// Each scale can be used for scaling different types of shapes such as the scaleSqrt() function for circles.
+//
+// Some scales are used for data that don't contain numeric values such as colors or categorical data.
+
 var data = [
   [400, 200],
   [210, 140],
@@ -56,6 +62,12 @@ var r_scale = d3.scaleLinear()
   })])
   .range([5, 30]);
 
+var a_scale = d3.scaleSqrt()
+  .domain([0, d3.max(data, function(d){
+    return d[1];
+  })])
+  .range([0,25]);
+
 // create circles
 svg.selectAll('circle')
   .data(data)
@@ -68,7 +80,7 @@ svg.selectAll('circle')
     return y_scale(d[1]);
   })
   .attr('r', function(d) {
-    return d[1] / 10;
+    return a_scale(d[1]);
   })
   .attr('fill', '#D1AB0E');
 
