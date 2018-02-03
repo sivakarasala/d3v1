@@ -108,6 +108,16 @@ var a_scale = d3.scaleSqrt()
   })])
   .range([0, 25]);
 
+// create x-axis
+var x_axis = d3.axisBottom()
+  .scale(x_scale)
+  .tickFormat(time_format);
+svg.append('g')
+  .attr('class', 'x-axis')
+  .attr('transform','translate(0,'+(chart_height-padding)+')'
+  )
+  .call(x_axis);
+
 // create circles
 svg.selectAll('circle')
   .data(data)

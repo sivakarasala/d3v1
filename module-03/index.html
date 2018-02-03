@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Ordinal Scales</title>
+</head>
+
+<body>
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+  <script>
+  //*******************************Ordinal Scales*****************************
+  // Ordinal scales are used to convert categorical data into numbers that can be used for visualizations.
+  //
+  // The definition of ordinal is relating to a "thing's" position in a series.
+  //
+  // D3 will evenly distribute your ordinal data. It's important to note that it will apply padding at the end.
+  //
+  // A band is a specific set of numbers in a range. The set of numbers are usually distributed evenly in a pattern. Not always but that's usually the case.
+
+    var trinity = [
+      'Brahma',
+      'Vishnu',
+      'Shiva',
+      'Surya',
+      'Ganapathy'
+    ];
+
+    var scale = d3.scaleBand()
+      .domain(d3.range(trinity.length))
+      .range([0, 500]);
+  </script>
+
+</body>
+
+</html>
