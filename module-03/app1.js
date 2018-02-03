@@ -87,11 +87,16 @@ svg.selectAll('text')
 //
 // You can delay a transition by applying the delay() function. This is also measured in milliseconds. Be careful with your delays as it can be easy to ruin the user experience with long delays and animations.
 
+// If your data changes, then your visualization will not reflect that accurately. You'll need to update the domain before you do anything else. Just call the domain() function again and pass in the new minimum and maximum values
+
 
 // Events
 d3.select('button').on('click', function() {
   // console.log('Om Namah Shivaya!');
-  data.reverse();
+  //data.reverse();
+  data[0] = 50;
+  y_scale.domain([0, d3.max(data)]); // updating the domain
+
   svg.selectAll('rect')
     .data(data)
     .transition()
