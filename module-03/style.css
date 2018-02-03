@@ -1,0 +1,29 @@
+#chart{
+  width: 800px;
+  height: 400px;
+  background-color: #f7f7f7;
+  margin: 25px auto;
+}
+
+.bar{
+  display: inline-block;
+  width: 25px;
+  height: 300px;
+  background-color: #7ED26D;
+  margin-right: 5px;
+}
+button{
+  display:block;
+  margin: 0 auto;
+}
+
+.x-axis path, .x-axis line, .y-axis path, .y-axis line{
+  shape-rendering: crispEdges;
+  stroke-width: 3px;
+}
+
+.x-axis text, .y-axis text{
+  font-family: sans-serif;
+  font-weight: bold;
+  font-size: 16px;
+}
