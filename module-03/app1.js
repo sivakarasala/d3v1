@@ -6,7 +6,7 @@
 //
 // Band scales were made specifically for bar charts so it's recommended you use them.
 
-// see below for info about updating the bar chart 
+// see below for info about updating the bar chart
 
 var data = [6, 20, 14, 24, 3, 7, 17, 23, 2, 6, 25, 11, 26, 9, 12]
 
@@ -77,12 +77,29 @@ svg.selectAll('text')
 //
 // You can bind your data to the elements again to let D3 be aware of the change. You will have to redraw only the elements affected and only change the attributes that were affected.
 
+//****************************Transitions and Animations***********************
+
+// Applying a transition is as simple as applying the transition() function to your current selection. D3 will take care of animating the attributes for you.
+//
+// Transitions can only be applied to attributes that currently exist. Otherwise there will be no animation applied.
+//
+// You can control the duration of your transition by applying the duration() function. The length of time is measured in milliseconds.
+//
+// You can delay a transition by applying the delay() function. This is also measured in milliseconds. Be careful with your delays as it can be easy to ruin the user experience with long delays and animations.
+
+
 // Events
 d3.select('button').on('click', function() {
   // console.log('Om Namah Shivaya!');
   data.reverse();
   svg.selectAll('rect')
     .data(data)
+    .transition()
+    .delay(function(d,i){
+      return i / data.length * 1000;
+    })
+    .duration(1000)
+    .ease(d3.easeCubicInOut)
     .attr("y", function(d) {
       return chart_height - y_scale(d);
     })
@@ -92,6 +109,12 @@ d3.select('button').on('click', function() {
   // create labels
   svg.selectAll('text')
     .data(data)
+    .transition()
+    .delay(function(d,i){
+      return i / data.length * 1000;
+    })
+    .duration(1000) // defaul 250 -- 1/4 of a second
+    .ease(d3.easeCubicInOut)
     .text(function(d) {
       return d;
     })
