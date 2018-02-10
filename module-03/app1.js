@@ -8,6 +8,16 @@
 
 // see below for info about updating the bar chart
 
+//*************************Mouse Hovers*******************************
+
+// D3 supports all default JavaScript events including clicks and hovers.
+//
+// The on() function is provided the data and index(in case of arrays) which contains the value to each element in the array.
+//
+// JavaScript animations and transitions give you more power as opposed to CSS. Use JavaScript if you need that power and flexibility. Otherwise, use CSS.
+//
+// Set the CSS(style..) property pointer-events to none if you don't want events applied to a certain element.
+
 var data = [{
     key: 0,
     num: 6
@@ -113,7 +123,17 @@ svg.selectAll('rect')
   .attr("height", function(d) {
     return y_scale(d.num);
   })
-  .attr('fill', '#7ED26D');
+  .attr('fill', '#7ED26D')
+  .on('mouseover', function(){
+    d3.select(this)
+      .transition()
+      .attr('fill', '#0c9cdf');
+  })
+  .on('mouseout', function(){
+    d3.select(this)
+      .transition()
+      .attr('fill', '#7ed26d')
+  });
 
 // create labels
 svg.selectAll('text')
@@ -131,7 +151,8 @@ svg.selectAll('text')
   })
   .attr('font-size', '15px')
   .attr('fill', '#fff')
-  .attr('text-anchor', 'middle');
+  .attr('text-anchor', 'middle')
+  .style('pointer-events', 'none');
 
 //******************************Updating bar chart****************************
 
