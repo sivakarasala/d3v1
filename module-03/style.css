@@ -12,6 +12,11 @@
   background-color: #7ED26D;
   margin-right: 5px;
 }
+
+rect:hover{
+  fill: #0c9cdf;
+  transition: 0.5s all ease-in;
+}
 button{
   display:block;
   margin: 5px auto;

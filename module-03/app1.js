@@ -88,6 +88,7 @@ var key = function(d){
 var chart_width = 800;
 var chart_height = 400;
 var bar_padding = 5;
+var sort_flag = false;
 
 var svg = d3.select('#chart')
   .append('svg')
@@ -124,15 +125,38 @@ svg.selectAll('rect')
     return y_scale(d.num);
   })
   .attr('fill', '#7ED26D')
-  .on('mouseover', function(){
-    d3.select(this)
+  // .on('mouseover', function(){
+  //   d3.select(this)
+  //     .transition()
+  //     .attr('fill', '#0c9cdf');
+  // })
+  // .on('mouseout', function(){
+  //   d3.select(this)
+  //     .transition('change_color_back')
+  //     .attr('fill', '#7ed26d')
+  // })
+  // You can give your transitions names to prevent collisions. This will mean you will have to interrupt animations manually by using the interrupt() function.
+  .on('click', function(){
+    svg.selectAll('rect')
+      .sort(function(a, b){
+        return sort_flag ? d3.descending(a.num, b.num) : d3.ascending(a.num, b.num);
+      })
+      .transition('sort') // optional argument for having diff transition name
+      .duration(1000)
+      .attr("x", function(d,i) {
+        return x_scale(i);
+      });
+
+    svg.selectAll('text')
+      .sort(function(a, b){
+        return sort_flag ? d3.descending(a.num, b.num) : d3.ascending(a.num, b.num);
+      })
       .transition()
-      .attr('fill', '#0c9cdf');
-  })
-  .on('mouseout', function(){
-    d3.select(this)
-      .transition()
-      .attr('fill', '#7ed26d')
+      .duration(1000)
+      .attr("x", function(d, i) {
+        return x_scale(i) + (x_scale.bandwidth()) / 2;
+      });
+      sort_flag = !sort_flag;
   });
 
 // create labels
@@ -153,6 +177,7 @@ svg.selectAll('text')
   .attr('fill', '#fff')
   .attr('text-anchor', 'middle')
   .style('pointer-events', 'none');
+
 
 //******************************Updating bar chart****************************
 
