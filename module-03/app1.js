@@ -63,7 +63,7 @@ svg.selectAll('text')
   .attr("y", function(d) {
     return chart_height - y_scale(d) + 15;
   })
-  .attr('font-size', 15)
+  .attr('font-size', '15px')
   .attr('fill', '#fff')
   .attr('text-anchor', 'middle');
 
@@ -91,7 +91,7 @@ svg.selectAll('text')
 
 
 // Events
-d3.select('button').on('click', function() {
+d3.select('.update').on('click', function() {
   // console.log('Om Namah Shivaya!');
   //data.reverse();
   data[0] = 50;
@@ -130,4 +130,80 @@ d3.select('button').on('click', function() {
       return chart_height - y_scale(d) + 15;
     })
 
+});
+
+// When you add new data, you need to update your scales domain for the new minimum and maximum values.
+//
+// The data() function returns a selection. The selection being the elements that have data binded to them.
+//
+// The elements that have data binded to them and the elements you create after moving them from the waiting room are 2 different selections.
+//
+// You can merge separate selections by calling the merge() function. This function must be chained after a selection and the selection it will be merged with must be passed into the function.
+
+// Add Data
+d3.select('.add').on('click', function() {
+  // Add new data
+  var new_num = Math.floor(Math.random() * d3.max(data));
+  data.push(new_num);
+
+  // Update Scales
+  x_scale.domain(d3.range(data.length));
+  y_scale.domain([0, d3.max(data, function(d){
+    return d;
+  })]);
+
+  // Select Bars
+  var bars = svg.selectAll('rect')
+    .data(data);
+
+  // Add new bar
+  bars.enter()
+    .append('rect')
+    .attr('x', function(d,i){
+      return x_scale(i);
+    })
+    .attr('y', chart_height)
+    .attr('width', x_scale.bandwidth())
+    .attr('height', 0)
+    .attr('fill', '#7ED26D')
+    .merge(bars)
+    .transition()
+    .duration(1000)
+    .attr("x", function(d, i) {
+      return x_scale(i); // 0 - 0, 1 - 30, 2 - 60
+    })
+    .attr("y", function(d) {
+      return chart_height - y_scale(d);
+    })
+    .attr("width", x_scale.bandwidth())
+    .attr("height", function(d) {
+      return y_scale(d);
+    })
+    .attr('fill', '#7ED26D');
+
+    // Create Labels
+    var labels = svg.selectAll('text')
+      .data(data);
+
+    labels.enter()
+      .append('text')
+      .text(function(d) {
+        return d;
+      })
+      .attr("x", function(d, i) {
+        return x_scale(i) + (x_scale.bandwidth()) / 2;
+      })
+      .attr("y", chart_height)
+      .attr('font-size', '15px')
+      .attr('fill', '#fff')
+      .attr('text-anchor', 'middle')
+      .merge(labels)
+      .transition()
+      .duration(1000)
+      .attr("x", function(d, i) {
+        return x_scale(i) + (x_scale.bandwidth()) / 2;
+      })
+      .attr("y", function(d) {
+        return chart_height - y_scale(d) + 15;
+      });
 });
